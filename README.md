@@ -114,6 +114,10 @@ airodump-ng --output-format pcap -w capshur -c [CHANNEL] [CARD]
 wpaclean [OUTFILE] [INFILE(s)]
 ```
 
+For the best results, run the `aireplay-ng` line and the `airodump-ng` line
+on separate wireless cards.  Run the dump command on the card with the highest
+gain antenna.
+
 ## Get crackin'
 You now should have your handshake if you did the previous steps right.  You
 now must crack it to uncover the pre-shared key (PSK).  You can use a bute-force attack, a dictionary attack, or a hybrid of the two.
