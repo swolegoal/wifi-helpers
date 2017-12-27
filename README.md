@@ -8,6 +8,29 @@ figured it may save someone else out there someday from having to regrok more
 manpages.  (To the aircrack guys' credit, their manpages are excellently
 written.)  I will publish my full cracking scripts at a later date.
 
+## Get card name
+Find your Wi-Fi interface name(s) with the following:
+
+```
+$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 fe80::4be1:e520:9605:274c/64 scope link 
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: wlp3s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN group default qlen 1000
+    link/ether 8c:a9:82:58:ac:68 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::3bff:d4f:a3e7:37f7/64 scope link 
+       valid_lft forever preferred_lft forever
+3: enp0s25: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether f0:de:f1:4e:c6:3c brd ff:ff:ff:ff:ff:ff
+```
+   - Note that the `ip` command should work on virtually any Linux distro,
+   unlike `ifconfig`.
+
 ## Find victim network
 I made a horrible Bash abomination simply called `scanner` (please don't laugh)
 that produces easier-to-read iwlist output which you can use or not use (I don't
