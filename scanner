@@ -1,0 +1,20 @@
+#!/bin/bash
+
+output="`iwlist scan 2> /dev/null  \
+  | grep -i -e channel    \
+            -e address    \
+            -e quality    \
+            -e encryption \
+            -e essid      \
+            -e ieee       \
+            -e version    \
+            -e wpa        \
+            -e wep        \
+            -e cipher     \
+            -e suite`"
+
+if [ $1 ] ; then
+  output=`echo -e "$output" | grep -B 5 -A 4 $1`
+fi
+
+echo -e "$output"

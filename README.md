@@ -8,7 +8,104 @@ figured it may save someone else out there someday from having to regrok more
 manpages.  (To the aircrack guys' credit, their manpages are excellently
 written.)  I will publish my full cracking scripts at a later date.
 
+## Find victim network
+I made a horrible Bash abomination simply called `scanner` (please don't laugh)
+that produces easier-to-read iwlist output which you can use or not use (I don't
+care).
+
+```
+$ ./scanner # Find a victim network
+          Cell 01 - Address: 70:3A:CB:F0:ED:CD
+                    Channel:11
+                    Frequency:2.462 GHz (Channel 11)
+                    Quality=34/70  Signal level=-76 dBm
+                    Encryption key:on
+                    ESSID:"Middleton"
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+          Cell 02 - Address: 72:3A:CB:F0:ED:CC
+                    Channel:11
+                    Frequency:2.462 GHz (Channel 11)
+                    Quality=35/70  Signal level=-75 dBm
+                    Encryption key:on
+                    ESSID:"Guest-Middleton"
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+          Cell 03 - Address: 70:3A:CB:F0:ED:80
+                    Channel:11
+                    Frequency:2.462 GHz (Channel 11)
+                    Quality=24/70  Signal level=-86 dBm
+                    Encryption key:on
+                    ESSID:"Middleton"
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+          Cell 04 - Address: F8:7B:8C:20:F8:EF
+                    Channel:6
+                    Frequency:2.437 GHz (Channel 6)
+                    Quality=36/70  Signal level=-74 dBm
+                    Encryption key:on
+                    ESSID:"Home Wi-Fi 2.5Ghz"
+                    IE: WPA Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+          Cell 05 - Address: 72:3A:CB:F0:ED:80
+                    Channel:11
+                    Frequency:2.462 GHz (Channel 11)
+                    Quality=23/70  Signal level=-87 dBm
+                    Encryption key:on
+                    ESSID:"Guest-Middleton"
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+```
+
+Once a target has been sighted, you can make a little text file for reference:
+
+```
+$ ./scanner Guest-Middleton | tee victim_network-info.txt
+          Cell 02 - Address: 72:3A:CB:F0:ED:CC
+                    Channel:11
+                    Frequency:2.462 GHz (Channel 11)
+                    Quality=35/70  Signal level=-75 dBm
+                    Encryption key:on
+                    ESSID:"Guest-Middleton"
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+--
+          Cell 05 - Address: 72:3A:CB:F0:ED:80
+                    Channel:11
+                    Frequency:2.462 GHz (Channel 11)
+                    Quality=26/70  Signal level=-84 dBm
+                    Encryption key:on
+                    ESSID:"Guest-Middleton"
+                    IE: IEEE 802.11i/WPA2 Version 1
+                        Group Cipher : CCMP
+                        Pairwise Ciphers (1) : CCMP
+                        Authentication Suites (1) : PSK
+```
+
+If your victim info gets lost in the scrollback you can use
+`cat victim_network-info.txt` or `less victim_network-info.txt` anytime.
+
 ## Get some handshakes
+You may have to get closer to the victim network in order to get a full hanshake.  Note the `Signal level` portion of the `iwlist` or `scanner` output.
+
+Note that `iwconfig` may no longer work in the future, so you may have to set your channel with a different tool.
+
 ```
 iwlist [CARD] scan
 iwconfig [CARD] channel [CHANNEL_NUM]
